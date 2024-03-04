@@ -55,7 +55,6 @@ const ProfilePage = () => {
             <Typography variant="h4" gutterBottom>Profile</Typography>
             <Typography variant="body1"><strong>Name:</strong> {profile.user.name}</Typography>
             <Typography variant="body1"><strong>Email:</strong> {profile.user.email}</Typography>
-            {/* Если у профиля есть книги, отобразим их */}
             {profile.books && profile.books.length > 0 && (
                 <>
                     <Typography variant="h5" gutterBottom>My Books</Typography>

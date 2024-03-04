@@ -14,7 +14,6 @@
                 });
                 if (response.ok) {
                     const data = await response.json();
-                    console.log("All books:", data);
                     setBooks(data); // Set the fetched books into state
                 } else {
                     console.error("Failed to fetch all books");

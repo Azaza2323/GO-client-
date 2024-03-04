@@ -1,9 +1,13 @@
 import { Box } from "@mui/material";
 import Navbar from "../navbar";
-import Book from "../components/showAllBooks"
+import AddBook from "../components/createBooks";
+import DeleteBook from "../components/deleteBook";
 import {useEffect, useState} from "react";
 import  {jwtDecode}  from "jwt-decode";
-const HomePage = () => {
+
+
+
+const AdminPage = () => {
     const [role, setRole] = useState("");
     useEffect(() => {
         const token = localStorage.getItem("token");
@@ -17,9 +21,10 @@ const HomePage = () => {
     return (
         <Box>
             <Navbar  role={role}/>
-            <Book/>
+            <AddBook/>
+            <DeleteBook/>
         </Box>
     );
 };
 
-export default HomePage;
+export default AdminPage;
