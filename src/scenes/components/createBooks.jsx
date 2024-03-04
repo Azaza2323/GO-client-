@@ -16,11 +16,22 @@ const AddBook = () => {
             [name]: value
         });
     };
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onloadend = () => {
+            setFormData({
+                ...formData,
+                image: reader.result
+            });
+        };
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("http://localhost:1111/create", {
+            const response = await fetch("http://localhost:1111/admin/create", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -66,7 +77,8 @@ const AddBook = () => {
                 </div>
                 <div>
                     <label>Image:</label>
-                    <input type="text" name="image" value={formData.image} onChange={handleChange} required />
+                    <input type="file" name="image" onChange={handleImageChange} required/>
+
                 </div>
                 <button type="submit">Add Book</button>
             </form>
