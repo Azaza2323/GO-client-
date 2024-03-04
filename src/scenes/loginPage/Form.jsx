@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import "./login.css"; // Import your CSS file with styles
-import {useNavigate} from "react-router-dom";
+import "./login.css";
 const Form = () => {
     const [pageType, setPageType] = useState("login");
     const [name, setName] = useState("");
@@ -27,7 +26,6 @@ const Form = () => {
                 console.error("Login failed");
             }
         } catch (error) {
-            // Handle network error
             console.error("Network error:", error);
         }
     };
@@ -44,8 +42,7 @@ const Form = () => {
                     name,
                     email,
                     password
-                }),
-                credentials: 'include'
+                })
             });
             if (response.ok) {
                 console.log("Registration successful");

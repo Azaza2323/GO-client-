@@ -3,13 +3,26 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./scenes/loginPage";
 import HomePage from "./scenes/homePage";
 import SingleBookPage from "./scenes/singleBookPage";
-
+import {jwtDecode} from "jwt-decode";
+import AdminPage from "./scenes/adminPage"
 const isAuthenticated = () => {
-    // Check if the user is authenticated (e.g., by checking if the JWT token exists in local storage)
     const token = localStorage.getItem("token");
-    return !!token; // Convert token to boolean
+    return !!token;
 };
-
+const isAdmin = () => {
+    const token = localStorage.getItem("token");
+    if (token && typeof token === "string") {
+        try {
+            const decoded = jwtDecode(token);
+            const role = decoded.role;
+            return role === 'admin';
+        } catch (error) {
+            console.error("Error decoding token:", error);
+            return false;
+        }
+    }
+    return false;
+};
 const App = () => {
     return (
         <div className="app">
@@ -29,6 +42,12 @@ const App = () => {
                         path="/:bookId"
                         element={
                             isAuthenticated() ? <SingleBookPage /> : <Navigate to="/login" replace />
+                        }
+                    />
+                    <Route
+                        path="/admin"
+                        element={
+                            isAdmin()? <AdminPage /> : <Navigate to="/login" replace />
                         }
                     />
                 </Routes>
