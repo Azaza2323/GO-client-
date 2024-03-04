@@ -3,11 +3,11 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import LoginPage from "./scenes/loginPage";
 import HomePage from "./scenes/homePage";
 import SingleBookPage from "./scenes/singleBookPage";
+import ProfilePage from "./scenes/profilePage";
 
 const isAuthenticated = () => {
-    // Check if the user is authenticated (e.g., by checking if the JWT token exists in local storage)
     const token = localStorage.getItem("token");
-    return !!token; // Convert token to boolean
+    return !!token;
 };
 
 const App = () => {
@@ -26,9 +26,15 @@ const App = () => {
                         }
                     />
                     <Route
-                        path="/:bookId"
+                        path="/books/:bookId"
                         element={
                             isAuthenticated() ? <SingleBookPage /> : <Navigate to="/login" replace />
+                        }
+                    />
+                    <Route
+                        path="/profile"
+                        element={
+                            isAuthenticated() ? <ProfilePage /> : <Navigate to="/login" replace />
                         }
                     />
                 </Routes>
