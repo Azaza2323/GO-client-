@@ -2,8 +2,6 @@ import React, { useState, useEffect } from 'react';
 import Navbar from "../navbar";
 import { Box, Container, Typography, CircularProgress } from '@mui/material';
 import {jwtDecode} from "jwt-decode";
-
-
 const ProfilePage = () => {
     const [profile, setProfile] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -44,11 +42,9 @@ const ProfilePage = () => {
             </Box>
         );
     }
-
     if (!profile) {
         return <Typography variant="h6" color="error">Failed to fetch profile data</Typography>;
     }
-
     return (
         <Container>
             <Navbar />
