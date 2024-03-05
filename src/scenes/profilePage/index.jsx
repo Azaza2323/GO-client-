@@ -47,7 +47,6 @@ const ProfilePage = () => {
     }
     return (
         <Container>
-            <Navbar />
             <Typography variant="h4" gutterBottom>Profile</Typography>
             <Typography variant="body1"><strong>Name:</strong> {profile.user.name}</Typography>
             <Typography variant="body1"><strong>Email:</strong> {profile.user.email}</Typography>

@@ -41,7 +41,7 @@ const AppContent = () => {
                 <Route path="/" element={isAuthenticated ? <HomePage /> : <Navigate to="/login" replace />} />
                 <Route path="/:bookId" element={isAuthenticated ? <SingleBookPage /> : <Navigate to="/login" replace />} />
                 <Route path="/admin" element={isAdmin ? <AdminPage /> : <Navigate to="/login" replace />} />
-                <Route path="/profile/:id" element={isAdmin ? <ProfilePage /> : <Navigate to="/login" replace />} />
+                <Route path="/profile" element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" replace />} />
             </Routes>
         </>
     );
