@@ -1,43 +1,42 @@
 import React, { useState, useEffect } from "react";
-import "./Book.css";
-import { useNavigate } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useFlashMessage } from "../../flashMessage";
+import "./Book.css";
 
-const ShowAllBooks = () => {
+const ShowCategoryBooks = () => {
     const [books, setBooks] = useState([]);
+    const { category } = useParams();
     const navigate = useNavigate();
-    const { message, type, isVisible, showFlashMessage } = useFlashMessage();
+    const { showFlashMessage } = useFlashMessage();
 
     useEffect(() => {
-        fetchAllBooks();
-    }, []);
+        fetchBooksByCategory(category);
+    }, [category]);
 
-    const fetchAllBooks = async () => {
+    const fetchBooksByCategory = async (category) => {
         try {
-            const response = await fetch("http://localhost:1111/", {
+            const response = await fetch(`http://localhost:1111/category/${category}`, {
                 method: "GET",
             });
             if (response.ok) {
                 const data = await response.json();
-                setBooks(data); // Set the fetched books into state
+                setBooks(data);
             } else {
-                console.error("Failed to fetch all books");
-                showFlashMessage('Failed to fetch all books.', 'error');
+                showFlashMessage(`Failed to fetch books for category: ${category}`, 'error');
             }
         } catch (error) {
             console.error("Network error:", error);
-            showFlashMessage('An error occurred while fetching books.', 'error');
+            showFlashMessage('An error occurred. Please try again.', 'error');
         }
     };
 
     return (
         <div className="book-container">
-            {isVisible && <div className={`flash-message ${type}`}>{message}</div>}
-            <h1>All Books</h1>
+            <h1>{category} Books</h1>
             <div className="book-grid">
                 {books.map((book) => (
-                    <div key={book.id} className="book-card" onClick={() => navigate(`/book/${book.id}`)}>
-                        <img src={book.image} alt={book.name} className="book-image" />
+                    <div key={book.id} className="book-card" onClick={() => navigate(`/${book.id}`)}>
+                        <img src={book.image || 'default_book_image_url'} alt={book.name} className="book-image" />
                         <div className="book-info">
                             <h2>{book.name}</h2>
                             <p>Author: {book.author}</p>
@@ -51,4 +50,4 @@ const ShowAllBooks = () => {
     );
 };
 
-export default ShowAllBooks;
+export default ShowCategoryBooks;
