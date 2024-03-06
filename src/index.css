@@ -120,3 +120,22 @@ input{
   text-transform: uppercase;
   padding: 18px 0 24px 0;
 }
+
+.flash-message {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #f8d7da;
+  padding: 10px;
+  border-radius: 5px;
+  z-index: 1000;
+}
+
+.flash-message.success {
+  background-color: #4CAF50;
+}
+
+.flash-message.error {
+  background-color: #f44336;
+}

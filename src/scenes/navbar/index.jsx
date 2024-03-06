@@ -5,9 +5,19 @@ import { HiOutlineMenuAlt3 } from "react-icons/hi";
 
 const Navbar = ({ role }) => {
     const [toggleMenu, setToggleMenu] = useState(false);
+    const [isCategoriesVisible, setIsCategoriesVisible] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState('');
     const isAuthenticated = !!localStorage.getItem("token");
 
+    const categories = [
+        'Fiction', 'Science Fiction', 'Fantasy', 'Historical Fiction',
+        'Classic Literature', 'Epic Poetry', 'Modernist Literature',
+        'Modern Literature', 'Satire', 'Drama'
+    ];
+
     const handleNavbar = () => setToggleMenu(!toggleMenu);
+    const toggleCategories = () => setIsCategoriesVisible(!isCategoriesVisible);
+
     const logout = () => {
         localStorage.removeItem('token');
         window.location.href = "/";
@@ -18,7 +28,6 @@ const Navbar = ({ role }) => {
             <div className='container navbar-content flex'>
                 <div className='brand-and-toggler flex flex-sb'>
                     <Link to="/" className='navbar-brand flex'>
-                        {/* Принято стилизованное название из HEAD - BookHub с правильным капитализатором */}
                         <span className='text-uppercase fw-7 fs-24 ls-1'>BookHub</span>
                     </Link>
                     <button type="button" className='navbar-toggler-btn' onClick={handleNavbar}>
@@ -31,29 +40,48 @@ const Navbar = ({ role }) => {
                         <li className='nav-item'>
                             <Link to="/" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Home</Link>
                         </li>
+                        <li className='nav-item' onClick={toggleCategories}>
+                            <Link to="#" className='nav-link'>Categories</Link>
+                            {isCategoriesVisible && (
+                                <ul className="categories-dropdown">
+                                    {categories.map((category) => (
+                                        <li key={category} onClick={() => setSelectedCategory(category)}>
+                                            <Link to={`/category/${category}`} className='dropdown-item'>
+                                                {category}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                </ul>
+                            )}
+                        </li>
                         {role === "admin" && (
                             <li className='nav-item'>
-                                <Link to="/admin" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Manage</Link>
+                                <Link to="/admin"
+                                      className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Manage</Link>
                             </li>
                         )}
                         <li className='nav-item'>
-                            <Link to="/about" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>About</Link>
+                            <Link to="/about"
+                                  className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>About</Link>
                         </li>
                         {!isAuthenticated && (
                             <li className='nav-item'>
-                                <Link to="/login" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Login</Link>
+                                <Link to="/login"
+                                      className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Login</Link>
                             </li>
                         )}
                         {isAuthenticated && (
                             <>
                                 <li className='nav-item'>
-                                    <Link to="/profile" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Profile</Link>
+                                    <Link to="/profile/:id"
+                                          className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'>Profile</Link>
                                 </li>
                                 <li className='nav-item'>
-                                    <a href="/logout" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1' onClick={(e) => {
-                                        e.preventDefault();
-                                        logout();
-                                    }}>Logout</a>
+                                    <a href="/logout" className='nav-link text-uppercase text-white fs-22 fw-6 ls-1'
+                                       onClick={(e) => {
+                                           e.preventDefault();
+                                           logout();
+                                       }}>Logout</a>
                                 </li>
                             </>
                         )}

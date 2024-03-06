@@ -19,6 +19,8 @@
     transition: var(--transition);
     z-index: 11;
 }
+
+
 .navbar-collapse{
     position: fixed;
     right: 0;
@@ -44,6 +46,58 @@
 .nav-link:hover{
     color: var(--purple-color);
 }
+
+.categories-dropdown {
+    font-size: 1.7rem;
+    font-weight: 500;
+    color: var(--white-color);
+    letter-spacing: 1px;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: var(--white-color);
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    display: none;
+    z-index: 1000;
+}
+
+.nav-item:hover .categories-dropdown,
+.nav-item.active .categories-dropdown {
+    display: block;
+}
+
+.categories-dropdown li {
+    margin-bottom: 0.8rem;
+}
+
+.categories-dropdown li:last-child {
+    margin-bottom: 0;
+}
+
+.categories-dropdown .dropdown-item {
+    color: var(--black-color);
+    padding: 0.5rem 1rem;
+    border-radius: 0.4rem;
+    transition: background-color 0.2s ease-in-out;
+}
+
+.categories-dropdown .dropdown-item:hover {
+    background-color: var(--grey-color);
+    color: var(--white-color);
+}
+
+.nav-item a {
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    color: var(--black-color);
+    font-size: 1.7rem;
+    font-weight: 500 !important;
+    opacity: 0.8;
+}
+
+
 
 @media screen and (min-width: 992px){
     .navbar-collapse{

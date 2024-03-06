@@ -7,6 +7,9 @@ import {jwtDecode} from "jwt-decode";
 import AdminPage from "./scenes/adminPage";
 import Navbar from "./scenes/navbar";
 import ProfilePage from "./scenes/profilePage";
+import {FlashMessageProvider} from "./flashMessage";
+import ShowCategoryBooks from "./scenes/components/showCategoryBook";
+import About from "./scenes/aboutPage";
 
 const useAuth = () => {
     const [role, setRole] = useState("");
@@ -40,8 +43,10 @@ const AppContent = () => {
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/" element={isAuthenticated ? <HomePage /> : <Navigate to="/login" replace />} />
                 <Route path="/:bookId" element={isAuthenticated ? <SingleBookPage /> : <Navigate to="/login" replace />} />
+                <Route path="/about" element={<About />} />
                 <Route path="/admin" element={isAdmin ? <AdminPage /> : <Navigate to="/login" replace />} />
-                <Route path="/profile" element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" replace />} />
+                <Route path="/category/:category" element={<ShowCategoryBooks />} />
+                <Route path="/profile/:id" element={isAuthenticated ? <ProfilePage /> : <Navigate to="/login" replace />} />
             </Routes>
         </>
     );
@@ -51,7 +56,9 @@ const App = () => {
     return (
         <div className="app">
             <BrowserRouter>
-                <AppContent />
+                <FlashMessageProvider>
+                    <AppContent />
+                </FlashMessageProvider>
             </BrowserRouter>
         </div>
     );
