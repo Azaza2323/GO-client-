@@ -1,11 +1,15 @@
 import React, { useState } from "react";
-import "./login.css"; // Import your CSS file with styles
+import "./login.css";
 import {useNavigate} from "react-router-dom";
+import "./login.css";
+import {useFlashMessage} from "../../flashMessage.jsx";
+
 const Form = () => {
     const [pageType, setPageType] = useState("login");
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const { message, type, isVisible, showFlashMessage } = useFlashMessage();
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
@@ -23,8 +27,10 @@ const Form = () => {
                 const data = await response.json();
                 localStorage.setItem("token", data.token);
                 window.location.href = "/";
+                showFlashMessage('Successfully logged in!', 'success');
             } else {
                 console.error("Login failed");
+                showFlashMessage('Failed to log in. Please try again.', 'error');
             }
         } catch (error) {
             // Handle network error
@@ -49,8 +55,10 @@ const Form = () => {
             });
             if (response.ok) {
                 console.log("Registration successful");
+                showFlashMessage('Registration successful', 'success');
             } else {
                 console.error("Registration failed");
+                showFlashMessage('Registration failed. Please try again.', 'error');
             }
         } catch (error) {
             console.error("Network error:", error);
@@ -59,6 +67,7 @@ const Form = () => {
 
     return (
         <div className="login-page">
+            {isVisible && <div className={`flash-message ${type}`}>{message}</div>}
             <div className="header">
                 <h1>Login or Register</h1>
             </div>

@@ -1,41 +1,46 @@
 import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { useFlashMessage } from "../../flashMessage";
 import "./Book.css";
-import { useNavigate } from "react-router-dom";
 
-const Book = () => {
+const ShowCategoryBooks = () => {
     const [books, setBooks] = useState([]);
+    const { category } = useParams();
     const navigate = useNavigate();
-    useEffect(() => {
-        fetchAllBooks();
-    }, []);
+    const { showFlashMessage } = useFlashMessage();
 
-    const fetchAllBooks = async () => {
+    useEffect(() => {
+        fetchBooksByCategory(category);
+    }, [category]);
+
+    const fetchBooksByCategory = async (category) => {
         try {
-            const response = await fetch("http://localhost:1111/", {
+            const response = await fetch(`http://localhost:1111/category/${category}`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${localStorage.getItem("token")}`
-                }
+                },
             });
             if (response.ok) {
                 const data = await response.json();
-                setBooks(data); // Set the fetched books into state
+                setBooks(data);
             } else {
-                console.error("Failed to fetch all books");
+                showFlashMessage(`Failed to fetch books for category: ${category}`, 'error');
             }
         } catch (error) {
             console.error("Network error:", error);
+            showFlashMessage('An error occurred. Please try again.', 'error');
         }
     };
 
     return (
         <div className="book-container">
-            <h1>Books</h1>
+            <h1>{category} Books</h1>
             <div className="book-grid">
                 {books.map((book) => (
                     <div key={book.id} className="book-card" onClick={() => navigate(`/${book.id}`)}>
-                        <img src={book.image} alt={book.name} className="book-image" />
+                        <img src={book.image || 'default_book_image_url'} alt={book.name} className="book-image" />
                         <div className="book-info">
                             <h2>{book.name}</h2>
                             <p>Author: {book.author}</p>
@@ -49,4 +54,4 @@ const Book = () => {
     );
 };
 
-export default Book;
+export default ShowCategoryBooks;
